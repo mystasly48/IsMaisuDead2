@@ -240,3 +240,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# Manual
+IsMaisuDead2/SecretKeys.cs
