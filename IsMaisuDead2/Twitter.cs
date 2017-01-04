@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CoreTweet;
+﻿using CoreTweet;
 
 namespace IsMaisuDead2 {
   class Twitter {
@@ -24,8 +19,10 @@ namespace IsMaisuDead2 {
     }
 
     private void UpdateStatus(string status) {
-      string replaceName = (status == ONLINE) ? OFFLINE : ONLINE;
-      UpdateName(GetName().Replace(replaceName, "") + status);
+      string name = GetName();
+      name = name.Replace(ONLINE, "");
+      name = name.Replace(OFFLINE, "");
+      UpdateName(name + status);
     }
 
     private string GetName() {

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace IsMaisuDead2 {
@@ -22,8 +15,7 @@ namespace IsMaisuDead2 {
       this.Visible = false;
       timer1.Interval = 1000 * 60 * 10; // 10 minutes
       try {
-        twitter = new Twitter(SecretKeys.ConsumerKey, SecretKeys.ConsumerSecret, SecretKeys.AccessToken, SecretKeys.AccessTokenSecret);
-        twitter.Online();
+        Initial();
       } catch {
         timer1.Enabled = true;
       }
@@ -39,12 +31,16 @@ namespace IsMaisuDead2 {
 
     private void timer1_Tick(object sender, EventArgs e) {
       try {
-        twitter = new Twitter(SecretKeys.ConsumerKey, SecretKeys.ConsumerSecret, SecretKeys.AccessToken, SecretKeys.AccessTokenSecret);
-        twitter.Online();
-        timer1.Enabled = false;
+        Initial();
       } catch {
 
       }
+    }
+
+    private void Initial() {
+      twitter = new Twitter(SecretKeys.ConsumerKey, SecretKeys.ConsumerSecret, SecretKeys.AccessToken, SecretKeys.AccessTokenSecret);
+      twitter.Online();
+      timer1.Enabled = false;
     }
   }
 }
