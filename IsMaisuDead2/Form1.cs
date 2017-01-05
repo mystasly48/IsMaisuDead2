@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Net.NetworkInformation; 
 
 namespace IsMaisuDead2 {
   public partial class Form1 : Form {
@@ -13,27 +14,16 @@ namespace IsMaisuDead2 {
       this.ShowInTaskbar = false;
       this.ShowIcon = false;
       this.Visible = false;
-      timer1.Interval = 1000 * 60 * 10; // 10 minutes
-      try {
+      if (NetworkInterface.GetIsNetworkAvailable()) {
         Initial();
-      } catch {
-        timer1.Enabled = true;
+      } else {
+        NetworkChange.NetworkAvailabilityChanged += new NetworkAvailabilityChangedEventHandler(NetworkChange_NetworkAvailabilityChanged);
       }
     }
 
     private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
-      try {
+      if (NetworkInterface.GetIsNetworkAvailable()) {
         twitter.Offline();
-      } catch {
-
-      }
-    }
-
-    private void timer1_Tick(object sender, EventArgs e) {
-      try {
-        Initial();
-      } catch {
-
       }
     }
 
@@ -41,6 +31,12 @@ namespace IsMaisuDead2 {
       twitter = new Twitter(SecretKeys.ConsumerKey, SecretKeys.ConsumerSecret, SecretKeys.AccessToken, SecretKeys.AccessTokenSecret);
       twitter.Online();
       timer1.Enabled = false;
+    }
+
+    private void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e) {
+      if (e.IsAvailable) {
+        Initial();
+      }
     }
   }
 }
